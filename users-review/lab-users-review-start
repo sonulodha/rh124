@@ -1,7 +1,12 @@
 #!/bin/bash
 container_name=serverb
 echo -e "\e[1;31m setting up lab ..../ \e[0m"
+if docker ps -a |grep -wo $container_name >& /dev/null
+then
 docker rm -f $container_name >& /dev/null
+else
+echo No such container $container_name
+fi
 docker run -itd --name $container_name mitrasonu/review-users >& /dev/null
 docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}'  $container_name | xargs echo From your workst
 ation, open an SSH session to 
